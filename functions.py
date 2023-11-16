@@ -25,3 +25,15 @@ def list_of_files(directory, extension):
 
 def print_list(list_name):
     print(list_name)
+
+def list_of_names(name_file):
+    names_list = []
+    last_name = "test"
+    for i in range(len(name_file)):
+        name_without_nbr = "".join([j for j in name_file[i] if not j.isdigit()])
+        name = name_without_nbr.replace("Nomination_","")
+        name = name.replace(".txt","")
+        if name != last_name:
+            names_list.append(name)
+        last_name = name
+    return names_list
