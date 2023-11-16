@@ -1,5 +1,7 @@
 '''
 - Extract the names of the presidents from the names of the text files provided ;
+def extract_name:
+
 - Associate a first name with each president;
 - Display the list of president's names (watch out for duplicates) ;
 - Convert the texts in the 8 files to lower case and store the contents in new files. The new files are to be
