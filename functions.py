@@ -15,10 +15,13 @@ in the same files in the "cleaned" directory.'''
 
 import os
 
-
+# Run through the list of files
 def list_of_files(directory, extension):
     files_names = []
     for filename in os.listdir(directory):
         if filename.endswith(extension):
             files_names.append(filename)
     return files_names
+
+def print_list(list_name):
+    print(list_name)
