@@ -4,5 +4,10 @@ from functions import *
 # Call of the function
 directory = "./speeches"
 files_names = list_of_files(directory, "txt")
-president_names = list_of_names(files_names)
+print(files_names)
+president_names = extract_names(files_names)
 print_list(president_names)
+print(associate_names(president_names))
+
+convert_to_lowercase("./speeches", "./cleaned")
+remove_punctuation("./cleaned")
