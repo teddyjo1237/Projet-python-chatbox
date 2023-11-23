@@ -1,10 +1,3 @@
-
-'''- For each file stored in the "cleaned" directory, run through its text and remove any punctuation characters.
-The final result should be a file with words separated by spaces. Please note that some characters, such as
-the apostrophe (') or the dash (-), requires special treatment to avoid concatenating two words (e.g. "ellemême" should become "elle même" and not "ellemême"). Changes made at this phase should be stored
-in the same files in the "cleaned" directory.'''
-
-
 import os
 import string
 
