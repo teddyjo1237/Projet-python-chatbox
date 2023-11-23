@@ -12,7 +12,6 @@ in the same files in the "cleaned" directory.'''
 
 
 import os
-import string
 
 
 # Run through the list of files
@@ -63,7 +62,7 @@ def convert_to_lowercase(input_folder, output_folder):
         input_filepath = os.path.join(input_folder_path, filename)   # Create the path to the files
         output_filepath = os.path.join(cleaned_folder, filename)
         
-        with open(input_filepath, "r") as file:
+        with open(input_filepath, "r")  as file:
             content = file.read()
         content_lower = content.lower()
         with open(output_filepath, "w") as file:
@@ -77,10 +76,12 @@ def remove_punctuation(input_folder):
 
         with open(input_filepath, "r") as file:
             content = file.read()
+        punctuation = """!#$%&()*"+,./:;<=>?@[\]^_`{|}~"""
         remove_apostrophe = str.maketrans("'", " ", "")    # Remove punctuation characters and handle special cases
         remove_dash = str.maketrans("-", " ", "")    
-        remover = str.maketrans("", "", string.punctuation) 
+        remover = str.maketrans("", "",punctuation) 
         content_cleaned = content.translate(remove_apostrophe).translate(remove_dash).translate(remover)
         with open(input_filepath, "w") as file:
             file.write(content_cleaned)
 
+            
