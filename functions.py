@@ -1,5 +1,5 @@
 import os
-
+import math
 
 # Run through the list of files
 def list_of_files(directory, extension):
@@ -49,10 +49,10 @@ def convert_to_lowercase(input_folder, output_folder):
         input_filepath = os.path.join(input_folder_path, filename)   # Create the path to the files
         output_filepath = os.path.join(cleaned_folder, filename)
         
-        with open(input_filepath, "r")  as file:
+        with open(input_filepath, "r", encoding='utf-8')  as file:
             content = file.read()
         content_lower = content.lower()
-        with open(output_filepath, "w") as file:
+        with open(output_filepath, "w", encoding='utf-8') as file:
             file.write(content_lower)
 
 
@@ -61,47 +61,95 @@ def remove_punctuation(input_folder):
     for filename in os.listdir(input_folder_path):
         input_filepath = os.path.join(input_folder_path, filename)   # Create the path to the files
 
-        with open(input_filepath, "r") as file:
+        with open(input_filepath, "r", encoding='utf-8') as file:
             content = file.read()
         punctuation = """!#$%&()*"+,./:;<=>?@[\]^_`{|}~"""
         remove_apostrophe = str.maketrans("'", " ", "")    # Remove punctuation characters and handle special cases
         remove_dash = str.maketrans("-", " ", "")    
         remover = str.maketrans("", "",punctuation) 
         content_cleaned = content.translate(remove_apostrophe).translate(remove_dash).translate(remover)
-        with open(input_filepath, "w") as file:
+        with open(input_filepath, "w", encoding='utf-8') as file:
             file.write(content_cleaned)
 
+def tf(directory):
+    document_frequency = {}
+    total_documents = 0
 
-# Create a string from a speech file
-def create_str():
-    t = 1
+    for filename in os.listdir(directory):
+        if filename.endswith(".txt"):
+            total_documents += 1
+            file_path = os.path.join(directory, filename)
 
-# TF method
-def tf(string):
-    dict = {}
-    found = False
-    keys = []
+            unique_words_in_document = set() # To be sure that each word is different
 
-    word = ""
-    for chr in string:
-        if chr != " ":
-            word = word + chr
-        elif chr == " ":
-            keys.append(word)
-            word = ""
-    if word != "":
-        keys.append(word)
+            with open(file_path, 'r', encoding='utf-8') as file:
+                content = file.read().lower().split()
 
-    for i in range(len(keys)):
-        current_word = keys[i]
-        for key in dict:
-            if current_word == key:
-                dict[current_word] += 1
-                found = True
-        if not(found):
-            dict[current_word] = 1
-        found = False
+                for word in set(content):       # Count the frequency of each word in the current document
+                    unique_words_in_document.add(word)
+                    document_frequency[word] = document_frequency.get(word, 0) + 1
+
+            for word in unique_words_in_document:       # Updating the document frequency
+                document_frequency[word] = document_frequency.get(word, 0) + 1
+    return document_frequency
 
 
+def idf(directory):
+    document_frequency = {}
+    total_documents = 0
 
-    return keys, dict
+    for filename in os.listdir(directory):
+        if filename.endswith(".txt"):
+            total_documents += 1
+            file_path = os.path.join(directory, filename)
+
+            unique_words_in_document = set() # To be sure that each word is different
+
+            with open(file_path, 'r', encoding='utf-8') as file:
+                content = file.read().lower().split()
+
+                for word in set(content):       # Count the frequency of each word in the current document
+                    unique_words_in_document.add(word)
+                    document_frequency[word] = document_frequency.get(word, 0) + 1
+
+            for word in unique_words_in_document:       # Updating the document frequency
+                document_frequency[word] = document_frequency.get(word, 0) + 1
+
+    idf_scores = {}
+    for word, doc_freq in document_frequency.items():    # Calculating IDF for each word
+        idf_scores[word] = math.log(total_documents / doc_freq)
+
+    return idf_scores
+
+def calculate_tfidf_matrix(directory):
+    tfidf_matrix = []
+    unique_words = set()
+    document_frequency = {}
+    total_documents = 0
+
+    for filename in os.listdir(directory):
+        if filename.endswith(".txt"):
+            total_documents += 1
+            file_path = os.path.join(directory, filename)
+
+            with open(file_path, 'r', encoding='utf-8') as file:
+                content = file.read().lower().split()
+                unique_words.update(set(content))
+
+                for word in set(content):
+                    document_frequency[word] = document_frequency.get(word, 0) + 1
+
+    for filename in os.listdir(directory):      # Calculating the TF-IDF of each word in each document
+        if filename.endswith(".txt"):
+            file_path = os.path.join(directory, filename)
+            with open(file_path, 'r', encoding='utf-8') as file:
+                content = file.read().lower().split()
+
+                tf_vector = {word: content.count(word) / len(content) for word in set(content)}
+
+                # Calculating TF-IDF
+                tfidf_vector = [tf_vector[word] * math.log(total_documents / document_frequency[word]) if word in tf_vector and document_frequency[word] > 0 else 0 for word in unique_words]
+
+                tfidf_matrix.append(tfidf_vector)
+
+    return tfidf_matrix
