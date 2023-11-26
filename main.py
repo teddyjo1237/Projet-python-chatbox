@@ -11,3 +11,6 @@ print(associate_names(president_names))
 
 convert_to_lowercase("./speeches", "./cleaned")
 remove_punctuation("./cleaned")
+
+test = "hello hello this is a string test to see if our code work "
+print(tf(test))

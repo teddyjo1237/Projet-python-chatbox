@@ -71,4 +71,37 @@ def remove_punctuation(input_folder):
         with open(input_filepath, "w") as file:
             file.write(content_cleaned)
 
-            
+
+# Create a string from a speech file
+def create_str():
+    t = 1
+
+# TF method
+def tf(string):
+    dict = {}
+    found = False
+    keys = []
+
+    word = ""
+    for chr in string:
+        if chr != " ":
+            word = word + chr
+        elif chr == " ":
+            keys.append(word)
+            word = ""
+    if word != "":
+        keys.append(word)
+
+    for i in range(len(keys)):
+        current_word = keys[i]
+        for key in dict:
+            if current_word == key:
+                dict[current_word] += 1
+                found = True
+        if not(found):
+            dict[current_word] = 1
+        found = False
+
+
+
+    return keys, dict
