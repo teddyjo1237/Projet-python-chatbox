@@ -153,3 +153,5 @@ def calculate_tfidf_matrix(directory):
                 tfidf_matrix.append(tfidf_vector)
 
     return tfidf_matrix
+
+# I didn't have time to call functions in other functions so I just put them manually in the TF-IDF function for now
