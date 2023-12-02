@@ -72,52 +72,43 @@ def remove_punctuation(input_folder):
             file.write(content_cleaned)
 
 def tf(directory):
-    document_frequency = {}
-    total_documents = 0
+    doc_frequency = {}
 
     for filename in os.listdir(directory):
         if filename.endswith(".txt"):
-            total_documents += 1
             file_path = os.path.join(directory, filename)
 
-            unique_words_in_document = set() # To be sure that each word is different
+            unique_words = set() # To be sure that each word is different
 
             with open(file_path, 'r', encoding='utf-8') as file:
-                content = file.read().lower().split()
+                content = file.read().split()
 
                 for word in set(content):       # Count the frequency of each word in the current document
-                    unique_words_in_document.add(word)
-                    document_frequency[word] = document_frequency.get(word, 0) + 1
+                    unique_words.add(word)
+                    doc_frequency[word] = doc_frequency.get(word, 0) + 0
 
-            for word in unique_words_in_document:       # Updating the document frequency
-                document_frequency[word] = document_frequency.get(word, 0) + 1
-    return document_frequency
+                for word in content:       # Updating the document frequency
+                    doc_frequency[word] = doc_frequency.get(word, 0) + 1
+    return doc_frequency
 
 
 def idf(directory):
-    document_frequency = {}
+    doc_frequency = {}
     total_documents = 0
-
     for filename in os.listdir(directory):
         if filename.endswith(".txt"):
-            total_documents += 1
             file_path = os.path.join(directory, filename)
-
-            unique_words_in_document = set() # To be sure that each word is different
+            total_documents += 1
 
             with open(file_path, 'r', encoding='utf-8') as file:
-                content = file.read().lower().split()
+                content = file.read().split()
 
                 for word in set(content):       # Count the frequency of each word in the current document
-                    unique_words_in_document.add(word)
-                    document_frequency[word] = document_frequency.get(word, 0) + 1
-
-            for word in unique_words_in_document:       # Updating the document frequency
-                document_frequency[word] = document_frequency.get(word, 0) + 1
+                    doc_frequency[word] = doc_frequency.get(word, 0) + 1
 
     idf_scores = {}
-    for word, doc_freq in document_frequency.items():    # Calculating IDF for each word
-        idf_scores[word] = math.log(total_documents / doc_freq)
+    for word, doc_freq in doc_frequency.items():    # Calculating IDF for each word
+        idf_scores[word] = math.log(total_documents / doc_freq, 10)
 
     return idf_scores
 
@@ -155,3 +146,15 @@ def calculate_tfidf_matrix(directory):
     return tfidf_matrix
 
 # I didn't have time to call functions in other functions so I just put them manually in the TF-IDF function for now
+
+# Find a word in the tf-scores
+def find_tf(tf_scores):
+    user_word = str(input("Enter a word: "))
+    user_word_tf = tf_scores[user_word]
+    return user_word_tf
+
+# Find a word in the idf-scores
+def find_idf(idf_scores):
+    user_word = str(input("Enter a word: "))
+    user_word_idf = idf_scores[user_word]
+    return user_word_idf

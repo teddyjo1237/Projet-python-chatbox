@@ -17,4 +17,8 @@ remove_punctuation("./cleaned")
 directory_path = "./cleaned"
 idf_scores = idf(directory_path)
 tf_scores = tf(directory_path)
+print(tf_scores)
+print(idf_scores)
 tfidf_matrix = calculate_tfidf_matrix(directory_path)
+print(find_tf(tf_scores))
+print(find_idf(idf_scores))
