@@ -139,7 +139,7 @@ def calculate_tfidf_matrix(directory):
                 tf_vector = {word: content.count(word) / len(content) for word in set(content)}
 
                 # Calculating TF-IDF
-                tfidf_vector = [tf_vector[word] * math.log(total_documents / document_frequency[word]) if word in tf_vector and document_frequency[word] > 0 else 0 for word in unique_words]
+                tfidf_vector = [tf_vector[word] * math.log(total_documents / document_frequency[word], 10) if word in tf_vector and document_frequency[word] > 0 else 0 for word in unique_words]
 
                 tfidf_matrix.append(tfidf_vector)
 
@@ -158,3 +158,15 @@ def find_idf(idf_scores):
     user_word = str(input("Enter a word: "))
     user_word_idf = idf_scores[user_word]
     return user_word_idf
+
+
+# Part II
+
+def question_analyze(question):
+    words_question = []
+    question_lower = question.lower()
+    punctuation = """!#$%&()*"+,./:;<=>?@[\]^_`{|}~"""
+    question_cleaned = question_lower.translate(str.maketrans("'", " ", "")).translate(str.maketrans("-", " ", "")).translate(str.maketrans("", "",punctuation))
+    for word in question_cleaned:
+        words_question.append(word)
+    return words_question

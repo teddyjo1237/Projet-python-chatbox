@@ -22,3 +22,10 @@ print(idf_scores)
 tfidf_matrix = calculate_tfidf_matrix(directory_path)
 print(find_tf(tf_scores))
 print(find_idf(idf_scores))
+print(calculate_tfidf_matrix(directory_path))
+
+
+
+# Ask the user to enter a question
+question = str(input("Enter your question : "))
+print(question_analyze(question))
