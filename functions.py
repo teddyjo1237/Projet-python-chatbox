@@ -193,11 +193,12 @@ def check_existance(file,question) :
         for j in range(len(file)):
             if question[i] == file[j]:
                 questionlist.append(question[i])
-    return (questionlist)
+    question_set = set(questionlist)
+    return (questionset)
 
 
-questionstring = check_existance(list_of_file,list_of_question)
-print(questionstring)'''
+question_set = check_existance(list_of_file,list_of_question)
+print(question_set)'''
 
 
 
