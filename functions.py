@@ -175,7 +175,27 @@ def question_analyze(question):
 corpus. Ignore terms absent from the corpus, as they will have no associated TF-IDF values. In other
 words, look for terms that form the intersection between the set of words in the corpus and the
 set of words in the question.'''
+#!!!!!!!!!!!!!!!!!!!!!!! a modifier pour inclure (version prototype): Mon test pour verifier si les mots d'une questions sont dans un doc texte, retourne une liste avec les mots qui y sont.
+'''file = open("texte.txt", "r")
+data = file.read()
+list_of_file = data.replace('\n', ' ').split(" ")
+print(list_of_file)
+question = str(input("Enter a question"))
+list_of_question = question.split(" ")
+print(list_of_question)
+def check_existance(file,question) :
+    questionlist = []
+    i=0
+    j=0
+    for i in range(len(question)):
+        for j in range(len(file)):
+            if question[i] == file[j]:
+                questionlist.append(question[i])
+    return (questionlist)
 
+
+questionstring = check_existance(list_of_file,list_of_question)
+print(questionstring)'''
 
 
 
