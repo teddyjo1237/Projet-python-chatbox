@@ -170,3 +170,25 @@ def question_analyze(question):
     for word in question_cleaned:
         words_question.append(word)
     return words_question
+
+'''Write a function that identifies the terms in the question that are also present in the document
+corpus. Ignore terms absent from the corpus, as they will have no associated TF-IDF values. In other
+words, look for terms that form the intersection between the set of words in the corpus and the
+set of words in the question.'''
+
+
+
+
+
+# Part 3
+#removing apostrophe neads to be imporved!!!!!!!!!!
+'''def clean_up(string):
+    i=0
+    newstr = ""
+    for i in range(len(string)):
+
+        if string[i] == "'":
+            newstr += "e "
+        else:
+            newstr+=string[i]
+    return(newstr)'''
