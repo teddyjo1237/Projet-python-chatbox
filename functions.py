@@ -161,3 +161,57 @@ def find_idf(idf_scores):
 
 
 # Part II
+<<<<<<< HEAD
+=======
+
+def question_analyze(question):
+    words_question = []
+    question_lower = question.lower()
+    punctuation = """!#$%&()*"+,./:;<=>?@[\]^_`{|}~"""
+    question_cleaned = question_lower.translate(str.maketrans("'", " ", "")).translate(str.maketrans("-", " ", "")).translate(str.maketrans("", "",punctuation))
+    for word in question_cleaned:
+        words_question.append(word)
+    return words_question
+
+'''Write a function that identifies the terms in the question that are also present in the document
+corpus. Ignore terms absent from the corpus, as they will have no associated TF-IDF values. In other
+words, look for terms that form the intersection between the set of words in the corpus and the
+set of words in the question.'''
+#!!!!!!!!!!!!!!!!!!!!!!! a modifier pour inclure (version prototype): Mon test pour verifier si les mots d'une questions sont dans un doc texte, retourne une liste avec les mots qui y sont.
+'''file = open("texte.txt", "r")
+data = file.read()
+list_of_file = data.replace('\n', ' ').split(" ")
+print(list_of_file)
+question = str(input("Enter a question"))
+list_of_question = question.split(" ")
+print(list_of_question)
+def check_existance(file,question) :
+    questionlist = []
+    i=0
+    j=0
+    for i in range(len(question)):
+        for j in range(len(file)):
+            if question[i] == file[j]:
+                questionlist.append(question[i])
+    return (questionlist)
+
+
+questionstring = check_existance(list_of_file,list_of_question)
+print(questionstring)'''
+
+
+
+
+# Part 3
+#removing apostrophe neads to be imporved!!!!!!!!!!
+'''def clean_up(string):
+    i=0
+    newstr = ""
+    for i in range(len(string)):
+
+        if string[i] == "'":
+            newstr += "e "
+        else:
+            newstr+=string[i]
+    return(newstr)'''
+>>>>>>> 36e3856d97475d63acdfef25628768124e2409c8
