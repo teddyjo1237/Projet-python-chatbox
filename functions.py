@@ -161,12 +161,3 @@ def find_idf(idf_scores):
 
 
 # Part II
-
-def question_analyze(question):
-    words_question = []
-    question_lower = question.lower()
-    punctuation = """!#$%&()*"+,./:;<=>?@[\]^_`{|}~"""
-    question_cleaned = question_lower.translate(str.maketrans("'", " ", "")).translate(str.maketrans("-", " ", "")).translate(str.maketrans("", "",punctuation))
-    for word in question_cleaned:
-        words_question.append(word)
-    return words_question
