@@ -347,5 +347,5 @@ def clean_up(string):
             newstr += "e "
         else:
             newstr+=string[i]
-    return(newstr)
+    return(newstr)'''
 >>>>>>> 36e3856d97475d63acdfef25628768124e2409c8
