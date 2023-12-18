@@ -198,7 +198,25 @@ def check_existance(file,question) :
 
 
 question_set = check_existance(list_of_file,list_of_question)
-print(question_set)'''
+print(question_set)
+
+
+def starters(list_question):
+    if list_question[0] == "Comment" :
+        start_answer = "Après analyse, "
+    elif list_question[0] == "Pourquoi" :
+        start_answer = "Après analyse, "
+    elif list_question[0] == "Peux-tu" :
+        start_answer = "Oui, bien sûr!"
+    else:
+        start_answer = ""
+    return start_answer
+
+def most_relevant(TF_IDF_matrix,tf_question,list_file_names):
+    for file in directory:
+        average_file = abs(file_tf - question_tf)
+        if average_file < current_file_tf :
+            current_file_tf = average_file'''
 
 
 
