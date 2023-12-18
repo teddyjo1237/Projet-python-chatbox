@@ -216,14 +216,10 @@ def most_relevant(TF_IDF_matrix,tf_question,list_file_names):
     for file in directory:
         average_file = abs(file_tf - question_tf)
         if average_file < current_file_tf :
-            current_file_tf = average_file'''
+            current_file_tf = average_file
 
 
-
-
-# Part 3
-#removing apostrophe neads to be imporved!!!!!!!!!!
-'''def clean_up(string):
+def clean_up(string):
     i=0
     newstr = ""
     for i in range(len(string)):
@@ -232,5 +228,124 @@ def most_relevant(TF_IDF_matrix,tf_question,list_file_names):
             newstr += "e "
         else:
             newstr+=string[i]
-    return(newstr)'''
+    return(newstr)
+
+string = str(input("Enter string"))
+new_string = clean_up(string)
+print("new string is ", new_string)
+'''
+'''
+#from test import texte
+file = open("texte.txt", "r")
+data = file.read()
+list_of_file = data.replace('\n', ' ').split(" ")
+print(list_of_file)
+question = str(input("Enter a question"))
+list_of_question = question.split(" ")
+print(list_of_question)
+def check_existance(file,question) :
+    questionlist = []
+    i=0
+    j=0
+    for i in range(len(question)):
+        for j in range(len(file)):
+            if question[i] == file[j]:
+                questionlist.append(question[i])
+    question_set = set(questionlist)
+    return (question_set)
+
+question_set = check_existance(list_of_file,list_of_question)
+print(question_set)
+
+
+
+def dot_product(tf_idf_question, tf_idf_file):
+    """Dot product as sum of list comprehension doing element-wise multiplication"""
+    return sum(tf_idf_question[i]*tf_idf_file[i] for x_i, y_i in zip(x, y))
+
+def dot_product(matrix1, matrix2):
+    # Ensure the matrices have compatible dimensions
+    if len(matrix1[0]) != len(matrix2):
+        raise ValueError("Incompatible matrix dimensions for dot product")
+
+    # Get the number of rows and columns for the result matrix
+    result_rows = len(matrix1)
+    result_cols = len(matrix2[0])
+
+    # Initialize the result matrix with zeros
+    result_matrix = [[0 for _ in range(result_cols)] for _ in range(result_rows)]
+
+    # Calculate the dot product
+    for i in range(result_rows):
+        for j in range(result_cols):
+            # Multiply corresponding elements and sum up
+            result_matrix[i][j] = sum(matrix1[i][k] * matrix2[k][j] for k in range(len(matrix1[0])))
+
+    return result_matrix
+
+
+result = dot_product(matrix_A, matrix_B)
+print("Matrix A:")
+print(matrix_A)
+print("Matrix B:")
+print(matrix_B)
+print("Dot Product:")
+print(result)
+
+import math
+
+def vector_magnitude(vector):
+    # Calculate the sum of the squares of the components
+    sum_of_squares = sum(x**2 for x in vector)
+
+    # Calculate the square root of the sum of squares
+    magnitude = math.sqrt(sum_of_squares)
+
+    return magnitude
+
+# Example usage:
+result = vector_magnitude(vector_A)
+
+def similarity(vector_A,vector_B):
+    denominateur = vector_magnitude(vector_A)*vector_magnitude(vector_B)
+    numerator = dot_product(vector_A,vector_B)
+    coeficient = numerator/denominateur
+    return coeficient
+
+
+def starters(list_question):
+    if list_question[0] == "Comment" :
+        start_answer = "Après analyse, "
+    elif list_question[0] == "Pourquoi" :
+        start_answer = "Après analyse, "
+    elif list_question[0] == "Peux-tu" :
+        start_answer = "Oui, bien sûr!"
+    else:
+        start_answer = ""
+    return start_answer
+
+def most_relevant(TF_IDF_matrix,tf_question,list_file_names):
+    for file in directory:
+        average_file = abs(file_tf - question_tf)
+        if average_file < current_file_tf :
+            current_file_tf = average_file
+    
+    return name_file_most_similar
+
+def highest_IDF():
+
+    return answer
+
+# Part 3
+#removing apostrophe neads to be imporved!!!!!!!!!!
+def clean_up(string):
+    i=0
+    newstr = ""
+    for i in range(len(string)):
+
+        if string[i] == "'":
+            newstr += "e "
+        else:
+            newstr+=string[i]
+    return(newstr)
 >>>>>>> 36e3856d97475d63acdfef25628768124e2409c8
