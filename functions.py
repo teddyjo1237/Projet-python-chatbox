@@ -112,40 +112,32 @@ def idf(directory):
 
     return idf_scores
 
-def calculate_tfidf_matrix(directory):
-    tfidf_matrix = []
-    unique_words = set()
-    document_frequency = {}
-    total_documents = 0
+def transpose(matrix):
+    # Calculate the transpose of a matrix
+    return [[matrix[j][i] for j in range(len(matrix))] for i in range(len(matrix[0]))]
+
+def tf_idf_matrix(directory):
+    # Calculate TF-IDF matrix
+    doc_frequency = tf(directory)
+    idf_scores = idf(directory)
+
+    unique_words = list(doc_frequency.keys())
+    tf_idf_matrix = []
 
     for filename in os.listdir(directory):
         if filename.endswith(".txt"):
-            total_documents += 1
             file_path = os.path.join(directory, filename)
 
             with open(file_path, 'r', encoding='utf-8') as file:
-                content = file.read().lower().split()
-                unique_words.update(set(content))
+                content = file.read().split()
+                tf_scores = [content.count(word) for word in unique_words]
+                tf_idf_row = [tf * idf_scores[word] for tf, word in zip(tf_scores, unique_words)]
+                tf_idf_matrix.append(tf_idf_row)
 
-                for word in set(content):
-                    document_frequency[word] = document_frequency.get(word, 0) + 1
+    # Transpose the matrix
+    tf_idf_matrix = transpose(tf_idf_matrix)
 
-    for filename in os.listdir(directory):      # Calculating the TF-IDF of each word in each document
-        if filename.endswith(".txt"):
-            file_path = os.path.join(directory, filename)
-            with open(file_path, 'r', encoding='utf-8') as file:
-                content = file.read().lower().split()
-
-                tf_vector = {word: content.count(word) / len(content) for word in set(content)}
-
-                # Calculating TF-IDF
-                tfidf_vector = [tf_vector[word] * math.log(total_documents / document_frequency[word], 10) if word in tf_vector and document_frequency[word] > 0 else 0 for word in unique_words]
-
-                tfidf_matrix.append(tfidf_vector)
-
-    return tfidf_matrix
-
-# I didn't have time to call functions in other functions so I just put them manually in the TF-IDF function for now
+    return tf_idf_matrix, unique_words
 
 # Find a word in the tf-scores
 def find_tf(tf_scores):
@@ -159,21 +151,25 @@ def find_idf(idf_scores):
     user_word_idf = idf_scores[user_word]
     return user_word_idf
 
+def unimportant_words(directory):
+    matrix = tf_idf_matrix(directory)
+    unimportant_word = []
+    for i in range(len(matrix[0])):
+        for j in range(len(matrix[0][i])):
+            if matrix[0][i] != 0:
+                unimportant = False
+        if unimportant == True:
+            unimportant_word.append(matrix[1][i])
+        unimportant = True
+    return unimportant_word
 
 # Part II
-<<<<<<< HEAD
-=======
 
-def question_analyze(question):
-    words_question = []
-    question_lower = question.lower()
-    punctuation = """!#$%&()*"+,./:;<=>?@[\]^_`{|}~"""
-    question_cleaned = question_lower.translate(str.maketrans("'", " ", "")).translate(str.maketrans("-", " ", "")).translate(str.maketrans("", "",punctuation))
-    for word in question_cleaned:
-        words_question.append(word)
-    return words_question
-
-#From this point on we didn't have time to implement the following code. Most of these functions work on their own.
+'''Write a function that identifies the terms in the question that are also present in the document
+corpus. Ignore terms absent from the corpus, as they will have no associated TF-IDF values. In other
+words, look for terms that form the intersection between the set of words in the corpus and the
+set of words in the question.'''
+#!!!!!!!!!!!!!!!!!!!!!!! a modifier pour inclure (version prototype): Mon test pour verifier si les mots d'une questions sont dans un doc texte, retourne une liste avec les mots qui y sont.
 '''file = open("texte.txt", "r")
 data = file.read()
 list_of_file = data.replace('\n', ' ').split(" ")
@@ -191,6 +187,10 @@ def check_existance(file,question) :
                 questionlist.append(question[i])
     question_set = set(questionlist)
     return (questionset)
+
+
+question_set = check_existance(list_of_file,list_of_question)
+print(question_set)
 
 
 def starters(list_question):
@@ -223,7 +223,11 @@ def clean_up(string):
     return(newstr)
 
 string = str(input("Enter string"))
-
+new_string = clean_up(string)
+print("new string is ", new_string)
+'''
+'''
+#from test import texte
 file = open("texte.txt", "r")
 data = file.read()
 list_of_file = data.replace('\n', ' ').split(" ")
@@ -231,7 +235,6 @@ print(list_of_file)
 question = str(input("Enter a question"))
 list_of_question = question.split(" ")
 print(list_of_question)
-
 def check_existance(file,question) :
     questionlist = []
     i=0
@@ -243,24 +246,32 @@ def check_existance(file,question) :
     question_set = set(questionlist)
     return (question_set)
 
+question_set = check_existance(list_of_file,list_of_question)
+print(question_set)
 
 
 
 def dot_product(tf_idf_question, tf_idf_file):
-  return sum(tf_idf_question[i]*tf_idf_file[i] for x_i, y_i in zip(x, y))
+    """Dot product as sum of list comprehension doing element-wise multiplication"""
+    return sum(tf_idf_question[i]*tf_idf_file[i] for x_i, y_i in zip(x, y))
 
 def dot_product(matrix1, matrix2):
+    # Ensure the matrices have compatible dimensions
     if len(matrix1[0]) != len(matrix2):
         raise ValueError("Incompatible matrix dimensions for dot product")
 
+    # Get the number of rows and columns for the result matrix
     result_rows = len(matrix1)
     result_cols = len(matrix2[0])
 
+    # Initialize the result matrix with zeros
     result_matrix = [[0 for _ in range(result_cols)] for _ in range(result_rows)]
 
+    # Calculate the dot product
     for i in range(result_rows):
         for j in range(result_cols):
-           result_matrix[i][j] = sum(matrix1[i][k] * matrix2[k][j] for k in range(len(matrix1[0])))
+            # Multiply corresponding elements and sum up
+            result_matrix[i][j] = sum(matrix1[i][k] * matrix2[k][j] for k in range(len(matrix1[0])))
 
     return result_matrix
 
@@ -273,14 +284,18 @@ print(matrix_B)
 print("Dot Product:")
 print(result)
 
+import math
 
 def vector_magnitude(vector):
+    # Calculate the sum of the squares of the components
     sum_of_squares = sum(x**2 for x in vector)
 
+    # Calculate the square root of the sum of squares
     magnitude = math.sqrt(sum_of_squares)
 
     return magnitude
 
+# Example usage:
 result = vector_magnitude(vector_A)
 
 def similarity(vector_A,vector_B):
@@ -325,4 +340,3 @@ def clean_up(string):
         else:
             newstr+=string[i]
     return(newstr)'''
->>>>>>> 36e3856d97475d63acdfef25628768124e2409c8
