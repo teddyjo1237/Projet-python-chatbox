@@ -165,11 +165,8 @@ def unimportant_words(directory):
 
 # Part II
 
-'''Write a function that identifies the terms in the question that are also present in the document
-corpus. Ignore terms absent from the corpus, as they will have no associated TF-IDF values. In other
-words, look for terms that form the intersection between the set of words in the corpus and the
-set of words in the question.'''
-#!!!!!!!!!!!!!!!!!!!!!!! a modifier pour inclure (version prototype): Mon test pour verifier si les mots d'une questions sont dans un doc texte, retourne une liste avec les mots qui y sont.
+
+#from here the functions work on their own but not in the main program
 '''file = open("texte.txt", "r")
 data = file.read()
 list_of_file = data.replace('\n', ' ').split(" ")
@@ -189,8 +186,6 @@ def check_existance(file,question) :
     return (questionset)
 
 
-question_set = check_existance(list_of_file,list_of_question)
-print(question_set)
 
 
 def starters(list_question):
@@ -222,19 +217,6 @@ def clean_up(string):
             newstr+=string[i]
     return(newstr)
 
-string = str(input("Enter string"))
-new_string = clean_up(string)
-print("new string is ", new_string)
-'''
-'''
-#from test import texte
-file = open("texte.txt", "r")
-data = file.read()
-list_of_file = data.replace('\n', ' ').split(" ")
-print(list_of_file)
-question = str(input("Enter a question"))
-list_of_question = question.split(" ")
-print(list_of_question)
 def check_existance(file,question) :
     questionlist = []
     i=0
@@ -246,58 +228,33 @@ def check_existance(file,question) :
     question_set = set(questionlist)
     return (question_set)
 
-question_set = check_existance(list_of_file,list_of_question)
-print(question_set)
-
 
 
 def dot_product(tf_idf_question, tf_idf_file):
-    """Dot product as sum of list comprehension doing element-wise multiplication"""
-    return sum(tf_idf_question[i]*tf_idf_file[i] for x_i, y_i in zip(x, y))
+   return sum(tf_idf_question[i]*tf_idf_file[i] for x_i, y_i in zip(x, y))
 
 def dot_product(matrix1, matrix2):
-    # Ensure the matrices have compatible dimensions
-    if len(matrix1[0]) != len(matrix2):
+   if len(matrix1[0]) != len(matrix2):
         raise ValueError("Incompatible matrix dimensions for dot product")
 
-    # Get the number of rows and columns for the result matrix
     result_rows = len(matrix1)
     result_cols = len(matrix2[0])
 
-    # Initialize the result matrix with zeros
     result_matrix = [[0 for _ in range(result_cols)] for _ in range(result_rows)]
 
-    # Calculate the dot product
     for i in range(result_rows):
         for j in range(result_cols):
-            # Multiply corresponding elements and sum up
             result_matrix[i][j] = sum(matrix1[i][k] * matrix2[k][j] for k in range(len(matrix1[0])))
 
     return result_matrix
 
-
-result = dot_product(matrix_A, matrix_B)
-print("Matrix A:")
-print(matrix_A)
-print("Matrix B:")
-print(matrix_B)
-print("Dot Product:")
-print(result)
-
-import math
-
 def vector_magnitude(vector):
-    # Calculate the sum of the squares of the components
     sum_of_squares = sum(x**2 for x in vector)
 
-    # Calculate the square root of the sum of squares
     magnitude = math.sqrt(sum_of_squares)
 
     return magnitude
-
-# Example usage:
-result = vector_magnitude(vector_A)
-
+    
 def similarity(vector_A,vector_B):
     denominateur = vector_magnitude(vector_A)*vector_magnitude(vector_B)
     numerator = dot_product(vector_A,vector_B)
@@ -329,7 +286,7 @@ def highest_IDF():
     return answer
 
 # Part 3
-#removing apostrophe neads to be imporved!!!!!!!!!!
+#removing apostrophe neads to be imporved!
 def clean_up(string):
     i=0
     newstr = ""
