@@ -173,8 +173,7 @@ def question_analyze(question):
         words_question.append(word)
     return words_question
 
-
-#!!!!!!!!!!!!!!!!!!!!!!! a modifier pour inclure (version prototype): Mon test pour verifier si les mots d'une questions sont dans un doc texte, retourne une liste avec les mots qui y sont.
+#From this point on we didn't have time to implement the following code. Most of these functions work on their own.
 '''file = open("texte.txt", "r")
 data = file.read()
 list_of_file = data.replace('\n', ' ').split(" ")
